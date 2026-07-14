@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>NotGoose_Terminal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body { background-color: #0a0a00; color: #ff8c00; font-family: 'Courier New', monospace; padding: 20px; }
+        .terminal-box { border: 2px solid #ff4500; padding: 25px; max-width: 700px; margin: auto; background: #1a0a00; position: relative; }
+        
+        .top-bar { display: flex; justify-content: flex-end; align-items: center; gap: 15px; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #ff4500; }
+        .top-bar a { color: #ff8c00; font-size: 1.5em; text-decoration: none; transition: 0.3s; }
+        .top-bar a:hover { color: #ffffff; }
+        #lang-select { background: #260f00; color: #ff4500; border: 1px solid #ff4500; padding: 5px; cursor: pointer; font-family: 'Courier New', monospace; }
+
+        .header-container { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 30px; }
+        .dialog-bubble { position: relative; background: #260f00; border: 2px dashed #ff4500; padding: 15px; color: #ffcc00; min-width: 250px; }
+        
+        /* Animación de Carga (Overlay) */
+        #loader { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: #0a0a00; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .loader-gif { width: 100px; }
+
+        .nav-link { color: #ffcc00; text-decoration: none; display: block; margin: 12px 0; cursor: pointer; transition: 0.3s; }
+        .nav-link:hover { color: #fff; transform: translateX(5px); }
+        .content-section { display: none; margin-top: 25px; border-top: 1px solid #ff4500; padding-top: 20px; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .header-avatar { width: 110px; height: 110px; border: 3px solid #ff4500; border-radius: 50%; object-fit: cover; }
+        .card { border: 1px solid #ff4500; padding: 20px; margin-top: 20px; background: #260f00; }
+        .stat { color: #ffcc00; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="terminal-box">
+    <div id="loader" style="display:none;">
+        <img src="animesher.com_studio-ghibli-gif-el-viaje-de-chihiro-1882658.gif" class="loader-gif">
+        <p style="color: #ff4500;">CARGANDO...</p>
+    </div>
+
+    <div class="top-bar">
+        <select id="lang-select" onchange="changeLanguage(this.value)">
+            <option value="es">ES</option><option value="en">EN</option><option value="pt">PT</option><option value="it">IT</option><option value="fr">FR</option>
+        </select>
+        <a href="https://github.com/bygustavoo10-droid" target="_blank"><i class="fab fa-github"></i></a>
+        <a href="https://discord.gg/JM8rGUHN" target="_blank"><i class="fab fa-discord"></i></a>
+    </div>
+
+    <div class="header-container">
+        <div class="dialog-bubble"><span id="welcome-text">Bienvenidos a NotGoose</span></div>
+        <img src="nose.jpeg" class="header-avatar">
+    </div>
+
+    <h1>> NotGoose_Term</h1>
+    <nav>
+        <div class="nav-link" onclick="loadSection('bio')" id="nav-bio">[01] IDENTIDAD</div>
+        <div class="nav-link" onclick="loadSection('skills')" id="nav-skills">[02] HABILIDADES</div>
+        <div class="nav-link" onclick="loadSection('hobbies')" id="nav-hobbies">[03] HOBBIES</div>
+        <div class="nav-link" onclick="loadSection('music')" id="nav-music">[04] MÚSICA</div>
+        <div class="nav-link" onclick="loadSection('status')" id="nav-status">[05] STATUS</div>
+    </nav>
+
+    <div id="bio" class="content-section"><h2>// Sobre mí</h2><p id="bio-text">Autodidacta, programador y creativo. Inicié mi camino solo, movido por el deseo de construir mi propia arquitectura digital. Cada línea de código es un paso más hacia la maestría.</p></div>
+    <div id="skills" class="content-section"><h2>// Habilidades</h2><p>Dominio técnico en: TypeScript, Rust, C++, C, HTML, Java, Python.</p></div>
+    <div id="hobbies" class="content-section"><h2>// Hobbies</h2><p>Me encanta dibujar y jugar videojuegos.</p><p><strong>Series:</strong> Ben 10, Spectacular Spiderman, Gumball, Regular Show, Victorious, Breaking Bad, Lost.</p><p><strong>Animes:</strong> Hunter x Hunter, Frieren, Naruto, Mob Psycho 100.</p></div>
+    <div id="music" class="content-section"><h2>// Música</h2><iframe src="https://open.spotify.com/embed/playlist/6RbQGpQ9yqaKms0GbqiV98?utm_source=generator&si=fda7f1088cd64e4d" width="100%" height="352" frameBorder="0"></iframe></div>
+    
+    <div id="status" class="content-section">
+        <h2>// Status</h2>
+        <div class="card">
+            <img src="Screenshot_20260626-161706.jpg" alt="Mii" style="width:120px; border: 2px solid #ff4500; display: block; margin-bottom: 15px;">
+            <img src="animesher.com_studio-ghibli-gif-el-viaje-de-chihiro-1882658.gif" style="width:200px; border: 2px solid #ff4500;">
+            <p>Nombre: <span class="stat">NotGoose</span></p>
+            <p>Edad: <span class="stat">14</span></p>
+            <p>Rango: <span class="stat">01</span></p>
+            <p>Mana: <span class="stat">[##########] 100/100</span></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function loadSection(id) {
+        document.getElementById('loader').style.display = 'flex';
+        setTimeout(() => {
+            document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
+            document.getElementById(id).style.display = 'block';
+            document.getElementById('loader').style.display = 'none';
+        }, 800);
+    }
+
+    const dict = {
+        es: { welcome: "Bienvenidos a NotGoose", navBio: "[01] IDENTIDAD", bio: "Autodidacta, programador y creativo." },
+        en: { welcome: "Welcome to NotGoose", navBio: "[01] IDENTITY", bio: "Self-taught, programmer and creative." },
+        pt: { welcome: "Bem-vindo a NotGoose", navBio: "[01] IDENTIDADE", bio: "Autodidata, programador e criativo." },
+        it: { welcome: "Benvenuto a NotGoose", navBio: "[01] IDENTITÀ", bio: "Autodidatta, programmatore e creativo." },
+        fr: { welcome: "Bienvenue sur NotGoose", navBio: "[01] IDENTITÉ", bio: "Autodidacte, programmeur et créatif." }
+    };
+
+    function changeLanguage(lang) {
+        document.getElementById('welcome-text').innerText = dict[lang].welcome;
+        document.getElementById('nav-bio').innerText = dict[lang].navBio;
+        document.getElementById('bio-text').innerText = dict[lang].bio;
+    }
+</script>
+</body>
+</html>
